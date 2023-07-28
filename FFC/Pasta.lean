@@ -1,5 +1,5 @@
-import FFaCiL.PrimeField
-import FFaCiL.EllipticCurve
+import FFC.PrimeField
+import FFC.EllipticCurve
 import YatimaStdLib.Rat
 import YatimaStdLib.Matrix
 

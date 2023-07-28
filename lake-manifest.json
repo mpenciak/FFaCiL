@@ -2,23 +2,17 @@
  "packagesDir": "./lake-packages",
  "packages":
  [{"git":
-   {"url": "https://github.com/lurk-lab/YatimaStdLib.lean",
+   {"url": "https://github.com/mpenciak/YatimaStdLib.lean",
     "subDir?": null,
     "rev": "df30d88d06e22d7c418fb8eee2996dd44cd1c547",
     "name": "YatimaStdLib",
     "inputRev?": "df30d88d06e22d7c418fb8eee2996dd44cd1c547"}},
   {"git":
-   {"url": "https://github.com/lurk-lab/LSpec",
+   {"url": "https://github.com/mpenciak/LSpec",
     "subDir?": null,
-    "rev": "88f7d23e56a061d32c7173cea5befa4b2c248b41",
+    "rev": "7c47a4a58d073e3fe70a95fdc4ea35e7329ede7b",
     "name": "LSpec",
-    "inputRev?": "88f7d23e56a061d32c7173cea5befa4b2c248b41"}},
-  {"git":
-   {"url": "https://github.com/lurk-lab/LightData",
-    "subDir?": null,
-    "rev": "7492abeae41f3a469396c73e13f48cd2b8da4a02",
-    "name": "LightData",
-    "inputRev?": "7492abeae41f3a469396c73e13f48cd2b8da4a02"}},
+    "inputRev?": "main"}},
   {"git":
    {"url": "https://github.com/leanprover/std4/",
     "subDir?": null,

@@ -1,4 +1,4 @@
-import FFaCiL.PrimeField
+import FFC.PrimeField
 
 /-!
 # Elliptic Curves and EC arithmetic
