@@ -1,7 +1,6 @@
-import FFaCiL.EllipticCurve
-import FFaCiL.Hash
-import FFaCiL.Pasta
-
+import FFC.EllipticCurve
+import FFC.Hash
+import FFC.Pasta
 import LSpec
 
 open LSpec
