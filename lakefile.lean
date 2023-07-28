@@ -6,9 +6,6 @@ package ffc
 @[default_target]
 lean_lib FFC
 
-require YatimaStdLib from git
-  "https://github.com/mpenciak/YatimaStdLib.lean" @ "df30d88d06e22d7c418fb8eee2996dd44cd1c547"
-
 require LSpec from git
   "https://github.com/mpenciak/LSpec" @ "main"
 

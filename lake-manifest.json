@@ -2,20 +2,14 @@
  "packagesDir": "./lake-packages",
  "packages":
  [{"git":
-   {"url": "https://github.com/mpenciak/YatimaStdLib.lean",
-    "subDir?": null,
-    "rev": "df30d88d06e22d7c418fb8eee2996dd44cd1c547",
-    "name": "YatimaStdLib",
-    "inputRev?": "df30d88d06e22d7c418fb8eee2996dd44cd1c547"}},
-  {"git":
    {"url": "https://github.com/mpenciak/LSpec",
     "subDir?": null,
-    "rev": "7c47a4a58d073e3fe70a95fdc4ea35e7329ede7b",
+    "rev": "09ad647e1ff884cacd96075eb5490e423875a338",
     "name": "LSpec",
     "inputRev?": "main"}},
   {"git":
    {"url": "https://github.com/leanprover/std4/",
     "subDir?": null,
-    "rev": "fde95b16907bf38ea3f310af406868fc6bcf48d1",
+    "rev": "88ff85411e4d2254bef1a29bf7bf0317b00f4d13",
     "name": "std",
-    "inputRev?": "fde95b16907bf38ea3f310af406868fc6bcf48d1"}}]}
+    "inputRev?": "main"}}]}
