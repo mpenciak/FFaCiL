@@ -1,6 +1,6 @@
-import FFaCiL.MSM
-import FFaCiL.Pasta
-import YatimaStdLib.Benchmark
+import FFC.MSM
+import FFC.Pasta
+import LSpec.Benchmark
 
 open Benchmark
 

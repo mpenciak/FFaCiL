@@ -1,6 +1,6 @@
 import LSpec
-import FFaCiL.MSM
-import FFaCiL.PrimeField
+import FFC.MSM
+import FFC.PrimeField
 
 open LSpec
 

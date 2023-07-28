@@ -1,5 +1,5 @@
-import FFaCiL.EllipticCurve
-import FFaCiL.PrimeField
+import FFC.EllipticCurve
+import FFC.PrimeField
 
 /-!
 # Shallue-van de Woestijne method

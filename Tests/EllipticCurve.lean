@@ -1,4 +1,4 @@
-import FFaCiL.EllipticCurve
+import FFC.EllipticCurve
 import LSpec
 
 open LSpec

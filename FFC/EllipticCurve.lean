@@ -1,4 +1,4 @@
-import FFaCiL.PrimeField
+import FFC.PrimeField
 
 /-!
 # Elliptic Curves and EC arithmetic
@@ -234,7 +234,7 @@ instance [ToString F] : ToString (AffinePoint C) where
   toString p :=
     match p with
       | .infinity => "O"
-      | .affine x y => s!"({x} : {y})"
+      | .affine x y => s!"({x}, {y})"
 
 namespace AffinePoint
 
@@ -252,6 +252,12 @@ The zero element is the point at infinity.
 -/
 def zero : AffinePoint C := infinity
 
+/--
+Returns the coordinates of the affine point if the point is not at infinity
+-/
+def coords : AffinePoint C → Option (F × F)
+  | .affine x y => some (x, y)
+  | .infinity => none
 
 /--
 Affine point negation
@@ -267,8 +273,7 @@ Handbook of elliptic and hyperelliptic curve cryptography by Henri Cohen, et al.
 def double [Field F] {C : Curve F} :
   AffinePoint C → AffinePoint C
   | affine x y =>
-    let xx := x^2
-    let lambda := (xx + xx + xx + Curve.a C) / (y + y)
+    let lambda := ((3 : Nat) * x^2 + C.a) / ((2 : Nat) * y)
     let x' := lambda^2 - (2 : Nat) * x
     let y' := lambda * (x - x') - y
     affine x' y'

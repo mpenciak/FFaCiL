@@ -1,8 +1,8 @@
-import YatimaStdLib.Nat
-import YatimaStdLib.Polynomial
-import YatimaStdLib.Ring
-import YatimaStdLib.Zmod
-import YatimaStdLib.Bit
+import FFC.Util.Ring
+import FFC.Util.Int
+import FFC.Util.Polynomial
+import FFC.Util.Zmod
+import FFC.Util.Bit
 
 /-!
 # Galois Fields

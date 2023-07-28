@@ -1,7 +1,7 @@
-import FFaCiL.PrimeField
-import FFaCiL.EllipticCurve
-import YatimaStdLib.Rat
-import YatimaStdLib.Matrix
+import FFC.PrimeField
+import FFC.EllipticCurve
+import FFC.Util.Rat
+import FFC.Util.Matrix
 
 /-!
 # Pasta Curves
@@ -66,7 +66,8 @@ Together with `v₁`, two linearly independent vectors that span the kernel of
 -/
 def v₂ : Vector Int := #[0x49e69d1640a899538cb1279300000000, -0x49e69d1640f049157fcae1c700000001]
 
-def m : Matrix Rat := #[v₁, v₂]
+def m : Matrix Rat := #[#[0x93cd3a2c8198e2690c7c095a00000001, 0x49e69d1640a899538cb1279300000000],
+                        #[0x49e69d1640a899538cb1279300000000, -0x49e69d1640f049157fcae1c700000001]]
 
 instance(priority := high) : HMul Nat Point Point where
   hMul n P := 
@@ -111,7 +112,8 @@ Together with `v₁`, two linearly independent vectors that span the kernel of
 -/
 def v₂ : Vector Int := #[0x93cd3a2c8198e2690c7c095a00000001, 0x49e69d1640a899538cb1279300000001]
 
-def m : Matrix Rat := #[v₁, v₂]
+def m : Matrix Rat := #[#[0xddb3d742c2417bbc992d30ed00000002, -0x47afc1f319ba33ffffffff],
+                        #[0x93cd3a2c8198e2690c7c095a00000001, 0x49e69d1640a899538cb1279300000001]]
 
 instance(priority := high) : HMul Nat Point Point where
   hMul n P := 

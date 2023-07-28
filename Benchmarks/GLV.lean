@@ -1,5 +1,5 @@
-import FFaCiL.Pasta
-import YatimaStdLib.Benchmark
+import FFC.Pasta
+import LSpec.Benchmark
 
 def Pallas.G : Point := .mkD
 0x3fe2f0feb60f920d4e7f06867da64339010388ac84b3395bfefc948e31fb1d4c

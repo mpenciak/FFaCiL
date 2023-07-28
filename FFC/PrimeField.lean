@@ -1,7 +1,6 @@
-import YatimaStdLib.AddChain
-import YatimaStdLib.Random
-import YatimaStdLib.Zmod
-import YatimaStdLib.Random
+import FFC.Util.AddChain
+import FFC.Util.Random
+import FFC.Util.Zmod
 
 /-!
 # Defining field instances with PrimeField
