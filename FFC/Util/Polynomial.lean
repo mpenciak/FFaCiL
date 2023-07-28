@@ -3,6 +3,11 @@
 
 In this module we define univariate polynomials over a type `R`, together with basic functions
 defining their evaluation, arithmetic, and divisibility.
+
+## Yatima Standard Library
+
+Parts of this file were migrated from the corresponding file in the Yatima Standard Library which is
+no longer being maintained
 -/
 
 /-- 

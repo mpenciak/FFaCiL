@@ -1,3 +1,14 @@
+/-!
+# Random
+
+This module defines some utilities around generating random elements of a type.
+
+
+## Yatima Standard Library
+
+Parts of this file were migrated from the corresponding file in the Yatima Standard Library which is
+no longer being maintained
+-/
 class Random (K : Type _) where
   random {gen : Type u} [RandomGen gen] [Inhabited gen] (g : gen) : K × gen 
 

@@ -18,6 +18,11 @@ case of `Chainable`, or `square` for `Square`.
 * Implementation taken from: https://crates.io/crates/addchain
 * Algorithm based on _Addition Chains using Continued Fractions_ by Bergeron, Berstel, Brlek, Duboc
   (https://www.sciencedirect.com/science/article/abs/pii/0196677489900369)
+
+## Yatima Standard Library
+
+Parts of this file were migrated from the corresponding file in the Yatima Standard Library which is
+no longer being maintained
 -/
 
 /-- The typeclass which implements efficient `add`, `mul`, `double`, and `doubleAdd` methods -/

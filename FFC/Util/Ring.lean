@@ -1,3 +1,16 @@
+/-!
+# Ring
+
+This module defines the `Ring` and `Field` typeclasses and some of their instances.
+
+**Note**: This is not a lawful `Ring`, and is not intended to be one. It simply encodes the arithmetic
+doable in a ring.
+
+## Yatima Standard Library
+
+Parts of this file were migrated from the corresponding file in the Yatima Standard Library which is
+no longer being maintained
+-/
 class Ring (R : Type) extends Add R, Mul R, Sub R, HPow R Nat R, BEq R, Coe Nat R where
   zero : R
   one : R

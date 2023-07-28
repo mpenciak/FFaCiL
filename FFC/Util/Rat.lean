@@ -1,6 +1,16 @@
 import FFC.Util.Ring
 import Std.Data.Rat.Basic
 
+/-!
+# Rat
+
+This module extends the functionality to the built in `Rat` type
+
+## Yatima Standard Library
+Parts of this file were migrated from the corresponding file in the Yatima Standard Library which is
+no longer being maintained
+-/
+
 namespace Rat
 
 def powAux (base : Rat) (exp : Nat) : Rat :=  

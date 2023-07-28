@@ -1,6 +1,17 @@
 import FFC.Util.Array
 import FFC.Util.Int
 
+/-!
+# Bit
+
+This module defines and adds functionality to a type representing `Bit`s. 
+
+## Yatima Standard Library
+
+Parts of this file were migrated from the corresponding file in the Yatima Standard Library which is
+no longer being maintained
+-/
+
 inductive Endian where
   | big    : Endian
   | little : Endian

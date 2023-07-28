@@ -6,6 +6,11 @@ This file contains some basic definitions needed to do linear algebra
 
 Note we do not use any dependent types or any useful features of Lean. This was a first pass and it
 will hopefully improve with time and more lemmas about arrays available in `std4`
+
+## Yatima Standard Library
+
+Parts of this file were migrated from the corresponding file in the Yatima Standard Library which is
+no longer being maintained
 -/
 
 variable (R : Type) [Ring R]
