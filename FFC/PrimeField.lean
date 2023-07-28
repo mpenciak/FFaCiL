@@ -1,5 +1,5 @@
-import YatimaStdLib.AddChain
-import YatimaStdLib.Random
+import FFC.Util.AddChain
+import FFC.Util.Random
 import FFC.Util.Zmod
 
 /-!

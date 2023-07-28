@@ -2,6 +2,30 @@ import Std.Data.Nat.Basic
 
 namespace Nat
 
+-- Shifts `n` to the left by `m+1`, adding 1 on each shift.
+def shiftLeft1 : Nat → Nat → Nat
+  | n, 0   => n
+  | n, m+1 => shiftLeft1 (2*n+1) m
+
+/-- Helper function for the extended GCD algorithm (`nat.xgcd`). -/
+partial def xgcdAux : Nat → Int → Int → Nat → Int → Int → Nat × Int × Int
+  | 0, _, _, r', s', t' => (r', s', t')
+  | r, s, t, r', s', t' =>
+    let q := r' / r
+    xgcdAux (r' % r) (s' - q * s) (t' - q * t) r s t
+
+/--
+Use the extended GCD algorithm to generate the `a` and `b` values
+satisfying `gcd x y = x * a + y * b`.
+-/
+def xgcd (x y : Nat) : Int × Int := (xgcdAux x 1 0 y 0 1).2
+
+/-- The extended GCD `a` value in the equation `gcd x y = x * a + y * b`. -/
+def gcdA (x y : Nat) : Int := (xgcd x y).1
+
+/-- The extended GCD `b` value in the equation `gcd x y = x * a + y * b`. -/
+def gcdB (x y : Nat) : Int := (xgcd x y).2
+
 def quotRem (a : Nat) (b : Nat) : Nat × Nat :=
   (a / b, a % b)
 
@@ -113,5 +137,69 @@ def modInv (a : Int) (m : Int) : Int :=
   let (i, _, g) := Int.gcdExt a m
   let mkPos (x : Int) := if x < 0 then x + m else x
   if g == 1 then mkPos i else 0
+
+section bitwise
+
+open Nat
+
+/-! Some bitwise arithmetics for `Int`s, assuming twos complement. -/
+
+def bdiff a b := a && not b
+
+def bitwise (f : Bool → Bool → Bool) (m' n' : Int) : Int :=
+  let go f' m n :=
+    if f' false false
+      then .negSucc $ Nat.bitwise (fun x y => not $ f' x y) m n
+      else .ofNat   $ Nat.bitwise f' m n
+  match m', n' with
+  | .ofNat m, .ofNat n     => go f m n
+  | .ofNat m, .negSucc n   => go (fun x y => f x (not y)) m n
+  | .negSucc m, .ofNat n   => go (fun x y => f (not x) y) m n
+  | .negSucc m, .negSucc n => go (fun x y => f (not x) (not y)) m n
+
+def lnot : Int → Int
+  | .ofNat m   => .negSucc m
+  | .negSucc m => .ofNat m
+
+def land : Int → Int → Int
+  | .ofNat m,   .ofNat n   => m &&& n
+  | .ofNat m,   .negSucc n => .ofNat $ Nat.bitwise bdiff m n
+  | .negSucc m, .ofNat n   => .ofNat $ Nat.bitwise bdiff n m
+  | .negSucc m, .negSucc n => .negSucc $ m ||| n
+
+def lor : Int → Int → Int
+  | .ofNat m,   .ofNat n   => m ||| n
+  | .ofNat m,   .negSucc n => .negSucc $ Nat.bitwise bdiff n m
+  | .negSucc m, .ofNat n   => .negSucc $ Nat.bitwise bdiff m n
+  | .negSucc m, .negSucc n => .negSucc $ m &&& n
+
+def lxor : Int → Int → Int
+  | .ofNat m,   .ofNat n   => m ^^^ n
+  | .ofNat m,   .negSucc n => .negSucc $ m ^^^ n
+  | .negSucc m, .ofNat n   => .negSucc $ m ^^^ n
+  | .negSucc m, .negSucc n => m ^^^ n
+
+def shiftLeft : Int → Int → Int
+  | .ofNat m,   .ofNat n   => m <<< n
+  | .ofNat m,   .negSucc n => m >>> (n+1)
+  | .negSucc m, .ofNat n   => .negSucc $ shiftLeft1 m n
+  | .negSucc m, .negSucc n => .negSucc $ m >>> (n+1)
+
+def shiftRight m n := shiftLeft m (-n)
+
+instance : AndOp Int := ⟨land⟩
+instance : OrOp Int := ⟨lor⟩
+instance : Xor Int := ⟨lxor⟩
+instance : ShiftLeft  Int := ⟨shiftLeft⟩
+instance : ShiftRight Int := ⟨shiftRight⟩
+
+/-- Turn a negative integer into a positive by taking its bit representation
+and interpreting it as unsigned. `size` is the number of bits to assume. -/
+def unsign (i : Int) (size : Nat := 64) : Int :=
+  match i with
+  | .ofNat m => m
+  | .negSucc _ => i + ((2 : Int) ^ size)
+
+end bitwise
 
 end Int

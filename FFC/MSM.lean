@@ -1,5 +1,4 @@
 import FFC.EllipticCurve
-import YatimaStdLib.ByteArray
 import Std.Data.HashMap.Basic
 
 /-!

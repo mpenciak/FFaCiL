@@ -1,7 +1,7 @@
 import FFC.PrimeField
 import FFC.EllipticCurve
-import YatimaStdLib.Rat
-import YatimaStdLib.Matrix
+import FFC.Util.Rat
+import FFC.Util.Matrix
 
 /-!
 # Pasta Curves
