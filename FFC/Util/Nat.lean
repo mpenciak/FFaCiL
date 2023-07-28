@@ -6,6 +6,7 @@ import Std.Data.Nat.Basic
 This module extends the functionality of the built in `Nat` type.
 
 ## Yatima Standard Library
+
 Parts of this file were migrated from the corresponding file in the Yatima Standard Library which is
 no longer being maintained
 -/
