@@ -26,10 +26,10 @@ instance : Coe Nat (Zmod n) where
 open Int
 
 instance : Add (Zmod n) where
-  add (a b : Zmod n) := (rep a + rep b)
+  add (a b : Zmod n) := (rep a + rep b) % (n : Int)
 
 instance : Mul (Zmod n) where
-  mul (a b : Zmod n) := (rep a * rep b)
+  mul (a b : Zmod n) := (rep a * rep b) % (n : Int)
 
 instance : Inhabited (Zmod n) where
   default := .mk 0
@@ -37,11 +37,15 @@ instance : Inhabited (Zmod n) where
 instance {n m : Nat} : OfNat (Zmod n) m where
   ofNat := m
 
+def norm (x : Zmod n) : Nat :=
+  let rep := x.rep
+  if rep < 0 then (rep - (rep / n - 1) * n).toNat else rep.toNat % n
+
 instance : Pow (Zmod n) Nat where
-  pow a l := Zmod.mk $ Nat.powMod n (natAbs ∘ Zmod.rep $ a) l
+  pow a l := Zmod.mk $ Nat.powMod n (norm a) l
 
 instance : Sub (Zmod n) where
-  sub (a b : Zmod n) := (rep a - rep b)
+  sub (a b : Zmod n) := (rep a - rep b) % (n : Int)
 
 def modInv (a : Zmod n) : Zmod n := Int.modInv a.rep n
 
@@ -50,10 +54,6 @@ instance : Div (Zmod n) where
 
 instance : HShiftRight (Zmod n) Nat (Zmod n) where
   hShiftRight x k := (x.rep.toNat.shiftRight k) % n
-
-def norm (x : Zmod n) : Nat :=
-  let rep := x.rep
-  if rep < 0 then (rep - (rep / n - 1) * n).toNat else rep.toNat % n
 
 instance : BEq (Zmod n) where
   beq x y := x.norm == y.norm
