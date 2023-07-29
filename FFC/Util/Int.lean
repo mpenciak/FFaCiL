@@ -19,7 +19,7 @@ Return `(x, y, g)` where `g` is the greatest common divisor of `a` and `b`, and 
 
 `x * a + y * b = g`
 -/
-def gcdExtNat (a : Nat) (b : Nat) : Int × Int × Int :=
+def gcdExtNat (a : Nat) (b : Nat) : Int × Int × Nat :=
   match h : b with
     | 0 => (1, 0, a)
     | k + 1 =>
@@ -35,13 +35,15 @@ def gcdExtNat (a : Nat) (b : Nat) : Int × Int × Int :=
       (t, s - q * t, g)
   termination_by _ => b
 
-def gcdExt (a : Int) (b : Int) : Int × Int × Int :=
+def gcdExt (a : Int) (b : Int) : Int × Int × Nat :=
   gcdExtNat (Int.natAbs a) (Int.natAbs b)
 
 def modInv (a : Int) (m : Int) : Int :=
-  let (i, _, g) := Int.gcdExt a m
-  let mkPos (x : Int) := if x < 0 then x + m else x
-  if g == 1 then mkPos i else 0
+  let (x, _, g) := Int.gcdExt a m
+  if g == 1 then
+    if a < 0 then -x else x
+  else
+    0
 
 section bitwise
 

@@ -26,10 +26,10 @@ instance : Coe Nat (Zmod n) where
 open Int
 
 instance : Add (Zmod n) where
-  add (a b : Zmod n) := (rep a + rep b) % (n : Int)
+  add (a b : Zmod n) := (rep a + rep b)
 
 instance : Mul (Zmod n) where
-  mul (a b : Zmod n) := (rep a * rep b) % (n : Int)
+  mul (a b : Zmod n) := (rep a * rep b)
 
 instance : Inhabited (Zmod n) where
   default := .mk 0
@@ -41,7 +41,7 @@ instance : Pow (Zmod n) Nat where
   pow a l := Zmod.mk $ Nat.powMod n (natAbs ∘ Zmod.rep $ a) l
 
 instance : Sub (Zmod n) where
-  sub (a b : Zmod n) := (rep a - rep b) % (n : Int)
+  sub (a b : Zmod n) := (rep a - rep b)
 
 def modInv (a : Zmod n) : Zmod n := Int.modInv a.rep n
 
