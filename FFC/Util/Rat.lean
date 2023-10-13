@@ -1,5 +1,6 @@
 import FFC.Util.Ring
 import Std.Data.Rat.Basic
+import Std.Data.Nat.Gcd
 
 /-!
 # Rat
@@ -28,7 +29,7 @@ def powAux (base : Rat) (exp : Nat) : Rat :=
 
 instance : Field Rat where
   hPow r n := powAux r n 
-  coe a := { num := a, reduced := by simp only [Nat.coprime, Nat.coprime_one_right]}
+  coe a := { num := a, reduced := by simp only [Nat.Coprime, Nat.coprime_one_right]}
   zero := 0
   one := 1
   inv x := 1/x
