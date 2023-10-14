@@ -4,7 +4,7 @@
  [{"git":
    {"url": "https://github.com/mpenciak/LSpec",
     "subDir?": null,
-    "rev": "09ad647e1ff884cacd96075eb5490e423875a338",
+    "rev": "d79de43601f9d27744af541f943ffa7067bb7ca8",
     "opts": {},
     "name": "LSpec",
     "inputRev?": "main",
@@ -12,7 +12,7 @@
   {"git":
    {"url": "https://github.com/leanprover/std4/",
     "subDir?": null,
-    "rev": "68517fcd34adbd7b0953a1de3b73080e57e60ba4",
+    "rev": "846e9e1d6bb534774d1acd2dc430e70987da3c18",
     "opts": {},
     "name": "std",
     "inputRev?": "main",
