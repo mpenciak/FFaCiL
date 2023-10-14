@@ -1,15 +1,20 @@
-{"version": 4,
+{"version": 6,
  "packagesDir": "lake-packages",
  "packages":
  [{"git":
    {"url": "https://github.com/mpenciak/LSpec",
     "subDir?": null,
-    "rev": "09ad647e1ff884cacd96075eb5490e423875a338",
+    "rev": "d79de43601f9d27744af541f943ffa7067bb7ca8",
+    "opts": {},
     "name": "LSpec",
-    "inputRev?": "main"}},
+    "inputRev?": "main",
+    "inherited": false}},
   {"git":
    {"url": "https://github.com/leanprover/std4/",
     "subDir?": null,
-    "rev": "88ff85411e4d2254bef1a29bf7bf0317b00f4d13",
+    "rev": "846e9e1d6bb534774d1acd2dc430e70987da3c18",
+    "opts": {},
     "name": "std",
-    "inputRev?": "main"}}]}
+    "inputRev?": "main",
+    "inherited": true}}],
+ "name": "ffc"}
