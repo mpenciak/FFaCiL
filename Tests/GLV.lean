@@ -1,17 +1,17 @@
 import FFC.Pasta
 import LSpec
 
-open LSpec 
+open LSpec
 
 def testInputs : List Int := [
-  -8, -1, 0, 1, 100, 1000, (-2)^256 - 1, 
+  -8, -1, 0, 1, 100, 1000, (-2)^256 - 1,
   0x338fdec7c177777777777f0be5b0c0ffbbe33e969eb999999999999999d235ee,
   0x4280000000001871b497999999999999999999969e77777777771af301d235ee,
   0xe38fffffffffffffff999999999999999990000000000000000000000aaaaaaa
 ]
 
-def Pallas.G : Point := .mkD 
-0x3fe2f0feb60f920d4e7f06867da64339010388ac84b3395bfefc948e31fb1d4c 
+def Pallas.G : Point := .mkD
+0x3fe2f0feb60f920d4e7f06867da64339010388ac84b3395bfefc948e31fb1d4c
 0x338fdec7c16c1871b4973f0be5b0c0ffbbe32e969ebf106c73601af301d235ee
 1
 
@@ -21,12 +21,12 @@ def Vesta.G : Point := .mkD
   1
 
 open Pallas CurveGroup in
-def pallasTests : TestSeq := 
+def pallasTests : TestSeq :=
   testInputs.foldl (init := .done) fun tSeq n =>
     tSeq ++ (test "Optimized Pallas matches unoptimized" $ n * G == instHMulInt.hMul n G)
 
 open Vesta CurveGroup in
-def vestaTests : TestSeq := 
+def vestaTests : TestSeq :=
   testInputs.foldl (init := .done) fun tSeq n =>
     tSeq ++ (test "Optimized Vesta matches unoptimized" $ n * G == instHMulInt.hMul n G)
 

@@ -10,7 +10,7 @@ Parts of this file were migrated from the corresponding file in the Yatima Stand
 no longer being maintained
 -/
 class Random (K : Type _) where
-  random {gen : Type u} [RandomGen gen] [Inhabited gen] (g : gen) : K × gen 
+  random {gen : Type u} [RandomGen gen] [Inhabited gen] (g : gen) : K × gen
 
 namespace Random
 
@@ -26,7 +26,7 @@ instance [Random α] [Random β] : Random (α × β) where
 def list (K : Type _) [Random K] {gen : Type _} [RandomGen gen] [Inhabited gen] (g : gen) (len : Nat) : List K :=
   match len with
   | 0 => []
-  | n + 1 => 
+  | n + 1 =>
     let (k, g) := random g
     k :: list K g n
 

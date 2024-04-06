@@ -75,7 +75,7 @@ def get2Adicity (n : Nat) : Nat × Nat :=
   let rec loop (m acc : Nat) :=
     match h : m with
     | 0 | 1 => (acc, 1)
-    | _ + 1 => 
+    | _ + 1 =>
       have : m / 2 < m := Nat.bitwise_rec_lemma (h ▸ Nat.succ_ne_zero _)
       if m % 2 ==0 then loop (m / 2) (acc + 1) else (acc, m)
   loop n 0

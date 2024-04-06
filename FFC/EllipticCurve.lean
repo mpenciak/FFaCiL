@@ -23,12 +23,12 @@ variable {F : Type _} [Field F] (C : Curve F)
 
 instance [ToString F] : ToString $ Curve F where
   toString C :=
-    match C.a == 0, C.b == 0 with 
+    match C.a == 0, C.b == 0 with
       | true, true => "y² = x³"
       | true, false => s!"y² = x³ + {C.b}"
       | false, true => s!"y² = x³ + {C.a} x"
       | false, false =>
-        match C.a == 1 with 
+        match C.a == 1 with
           | true => s!"y² = x³ + x + {C.b}"
           | false => s!"y² = x³ + {C.a} x + {C.b}"
 
@@ -72,13 +72,13 @@ The zero element of the Abelian group of projective points is the point at infin
 abbrev zero : ProjectivePoint C := infinity
 
 instance : Inhabited $ ProjectivePoint C where
-  default := infinity  
+  default := infinity
 
 open Random in
 /--
 Generates a random point of a projective curve.
 -/
-partial def randomAux [PrimeField F] {gen : Type _} [Inhabited gen] [RandomGen gen] (g : gen) 
+partial def randomAux [PrimeField F] {gen : Type _} [Inhabited gen] [RandomGen gen] (g : gen)
     : (ProjectivePoint C) × gen :=
   let (X, g) := random g
   let (pos, g) := randBool g
@@ -146,7 +146,7 @@ instance [ToString F] : ToString $ ProjectivePoint C where
 
 Point doubling algorithm based on https://eprint.iacr.org/2015/1060.pdf
 -/
-def double (p : ProjectivePoint C) : ProjectivePoint C := 
+def double (p : ProjectivePoint C) : ProjectivePoint C :=
   Id.run do
     let a := C.a
     let b := C.b
@@ -187,7 +187,7 @@ instance : Neg $ ProjectivePoint C where
 
 /--
 Addition in the Abelian group of projective points.
-The implementation is based on 
+The implementation is based on
 Handbook of elliptic and hyperelliptic curve cryptography by Henri Cohen, et al., 13.2.1.b.
 -/
 def add (p₁ p₂ : ProjectivePoint C) : ProjectivePoint C :=
@@ -201,7 +201,7 @@ def add (p₁ p₂ : ProjectivePoint C) : ProjectivePoint C :=
     let b3 := (3 : Nat) * b
     let t₁ := b3 * x₁z₂x₂z₁ - a^2 * z₁z₂
     let x₃ :=
-      (x₁ * y₂ + x₂ * y₁) * 
+      (x₁ * y₂ + x₂ * y₁) *
       (y₂ * y₁ - ax₁z₂x₂z₁ - b3 * z₁z₂) -
       (y₁ * z₂ + y₂ * z₁) *
       (a * x₁ * x₂ + t₁)
@@ -262,7 +262,7 @@ def coords : AffinePoint C → Option (F × F)
 /--
 Affine point negation
 -/
-def neg : AffinePoint C → AffinePoint C 
+def neg : AffinePoint C → AffinePoint C
   | infinity => infinity
   | affine x y => affine x (-y)
 
@@ -282,7 +282,7 @@ def double [Field F] {C : Curve F} :
 /--
 Affine point addition, based on https://eprint.iacr.org/2015/1060.pdf.
 -/
-def add {F : Type _} [Field F] {C : Curve F} 
+def add {F : Type _} [Field F] {C : Curve F}
   : AffinePoint C → AffinePoint C → AffinePoint C
     | .infinity, p => p
     | p, .infinity => p
@@ -302,7 +302,7 @@ open Random in
 /--
 Generated a random affine point.
 -/
-partial def randomAux [PrimeField F] {gen : Type _} [Inhabited gen] [RandomGen gen] (g : gen) 
+partial def randomAux [PrimeField F] {gen : Type _} [Inhabited gen] [RandomGen gen] (g : gen)
     : (AffinePoint C) × gen :=
   let (X, g) := random g
   let (pos, g) := randBool g
@@ -332,7 +332,7 @@ def AffinePoint.toProjective : AffinePoint C → ProjectivePoint C
 /--
 `CurveGroup` is a type class that defines basic algebraic operations.
 -/
-class CurveGroup {F : outParam $ Type _} [Field F] (K : Type _) (C : outParam $ Curve F)  where 
+class CurveGroup {F : outParam $ Type _} [Field F] (K : Type _) (C : outParam $ Curve F)  where
   /--
   The identity element
   -/
@@ -362,10 +362,10 @@ TODO: Add more methods to `CurveGroup`. This includes things like
 namespace CurveGroup
 
 instance [CurveGroup K C] : Add K where
-  add := CurveGroup.add 
+  add := CurveGroup.add
 
 instance [CurveGroup K C] : Neg K where
-  neg := CurveGroup.inv 
+  neg := CurveGroup.inv
 
 open CurveGroup in
 partial def smulAux [CurveGroup K C] (n : Nat) (p : K) (acc : K) : K :=
@@ -381,20 +381,20 @@ Double and add algorithm for the fast scalar-point multiplication algorithm.
 def smul [CurveGroup K C] (n : Nat) (p : K) : K := smulAux n p (zero)
 
 instance [CurveGroup K C] : HMul Nat K K where
-  hMul := smul  
-  
+  hMul := smul
+
 instance [CurveGroup K C] : HMul Int K K where
   hMul n p := match n with
     | .ofNat n => n * p
     | .negSucc n => (n + 1) * (- p)
 
-instance : CurveGroup (ProjectivePoint C) C where 
+instance : CurveGroup (ProjectivePoint C) C where
   zero := ProjectivePoint.infinity
-  inv := fun ⟨x, y, z⟩ => ⟨x, -y, z⟩ 
+  inv := fun ⟨x, y, z⟩ => ⟨x, -y, z⟩
   add := ProjectivePoint.add
   double := ProjectivePoint.double
 
-instance : CurveGroup (AffinePoint C) C where 
+instance : CurveGroup (AffinePoint C) C where
   zero := AffinePoint.infinity
   inv := AffinePoint.neg
   add := AffinePoint.add
@@ -410,7 +410,7 @@ def Curve.points {F} [PrimeField F] (C : Curve F) : Array (ProjectivePoint C) :=
   for x in [:PrimeField.char F] do
     match PrimeField.sqrt ((x : F)^3 + C.a * x + C.b) with
     | none => continue
-    | some s => 
+    | some s =>
       answer := answer.push ⟨x, s, 1⟩
       answer := answer.push ⟨x, -s, 1⟩
   return answer

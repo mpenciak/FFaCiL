@@ -10,8 +10,8 @@ Parts of this file were migrated from the corresponding file in the Yatima Stand
 no longer being maintained
 -/
 
-/-- 
-The type of a polynomial with coefficients in `R`. 
+/--
+The type of a polynomial with coefficients in `R`.
 
 NOTE : We encode polynomials in such a way so that the `i`th entry of the array corresponds to the
 degree `i-1` coefficient. For example `#[a,b,c]` <--> `a + b x + c x^2`
@@ -36,11 +36,11 @@ instance : Append (Polynomial A) where
 
 private def tail (ar : Polynomial A) : Polynomial A := ar.eraseIdx 0
 
-variable {A : Type _ } [Add A] [Mul A] [HPow A Nat A] [OfNat A (nat_lit 1)] [OfNat A (nat_lit 0)] 
+variable {A : Type _ } [Add A] [Mul A] [HPow A Nat A] [OfNat A (nat_lit 1)] [OfNat A (nat_lit 0)]
                        [BEq A] [Div A] [Neg A]
 
 /-- Returns a "normalized" form for a polynomial, dropping the leading zeroes -/
-def norm (f : Polynomial A) : Polynomial A := 
+def norm (f : Polynomial A) : Polynomial A :=
   let ans := f.popWhile (· == 0)
   if ans.size == 0 then #[0] else ans
 
@@ -83,7 +83,7 @@ private def zeros (n : Nat) : Polynomial A := mkArray n 0
 def zero : Polynomial A := #[0]
 
 private def padZeroes (f : Polynomial A) (n : Nat) : Polynomial A :=
-  f ++ zeros n 
+  f ++ zeros n
 
 /-- Returns the addition addition of two polynomials -/
 def polyAdd (f : Polynomial A) (g : Polynomial A) : Polynomial A :=
@@ -116,7 +116,7 @@ def polyMul (f : Polynomial A) : Polynomial A → Polynomial A :=
 instance : Mul (Polynomial A) where
   mul := polyMul
 
-/-- 
+/--
 Returns `(q, r)` where `q` is the quotient of division of polynomial `f` by `g` and `r` is the
 remainder
 -/
@@ -124,7 +124,7 @@ def polyQuotRem (f : Polynomial A) (g : Polynomial A) : Polynomial A × Polynomi
   let rec polyQRAux (f' g' : Polynomial A) (n : Nat) : Polynomial A × Polynomial A :=
     match n with
     | 0     => (#[], #[])
-    | k + 1 => 
+    | k + 1 =>
       if k + 1 < g'.size then (#[],f')
       else
         let x := f'.getD 0 0
@@ -143,7 +143,7 @@ def polyDiv (f g : Polynomial A) : Polynomial A := polyQuotRem f g |>.fst
 /-- Returns the remainder of the division of the polynomial `f` by `g` -/
 def polyMod (f g : Polynomial A) : Polynomial A := polyQuotRem f g |>.snd
 
-/-- 
+/--
 Returns `(a, b, d)` where `d` is the greatest common divisor of `f` and `g` and `a`, `b` satisfy
 
 `a * f + b * g = d `
@@ -151,20 +151,20 @@ Returns `(a, b, d)` where `d` is the greatest common divisor of `f` and `g` and 
 TODO : Eliminate `partial` using `termination_by _ => g.degree` and a proof that `polyQuotRem`
 reduces degree.
 -/
-partial def polyEuc [Inhabited A] [Div A] (f g : Polynomial A) : Polynomial A × Polynomial A × Polynomial A 
-  := if g.isZero then 
+partial def polyEuc [Inhabited A] [Div A] (f g : Polynomial A) : Polynomial A × Polynomial A × Polynomial A
+  := if g.isZero then
        (#[1 / f.lead], #[0], f.makeMonic) else
        let (q, r) := polyQuotRem f g
        let (s, t, d) := polyEuc g r
        (t, s - q * t, d)
 
-/-- 
+/--
 Returns the monic polynomial with the roots taken from the list `a`.
 -/
 def rootsToPoly (as : List A) : Polynomial A :=
   match as with
   | [] => #[1]
-  | (root :: roots) => 
+  | (root :: roots) =>
     let monom : Polynomial A := #[-root,1]
     monom * (rootsToPoly roots)
 

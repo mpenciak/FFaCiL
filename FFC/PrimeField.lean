@@ -33,11 +33,11 @@ A typeclass for `PrimeField` is provided (and an instance is automatically gener
 syntax) with the following functionality:
 
 * Pre-computed addchains for `p`, `p - 1 / 2`
-* Efficient calculation of the Legendre symbol using `PrimeField.legendre` 
+* Efficient calculation of the Legendre symbol using `PrimeField.legendre`
   (using a pre-computed `AddChain` for `p - 1 / 2`)
 * Pre-computed 2-adicity for `p - 1`
 * Fixed-base batched exponentiation using `PrimeField.batchedExp`
-* Batched inversion using `PrimeField.batchedInv` (replaces `n` field inversions with 1 inversion and 
+* Batched inversion using `PrimeField.batchedInv` (replaces `n` field inversions with 1 inversion and
   `3n` field multiplications)
 * Efficient implementation of the Tonelli-Shank algorithm for square roots using `PrimeField.sqrt?`
 
@@ -49,7 +49,7 @@ section newfieldclass
 
 class PrimeField (K : Type _) extends Field K where
   char : Nat
-  sqrt : K → Option K 
+  sqrt : K → Option K
   content : Nat
   twoAdicity : Nat × Nat
   legAC : Array ChainStep
@@ -66,20 +66,20 @@ def PrimeField.isSquare [PrimeField K] (k : K) : Bool :=
 
 class NewField (K : Type _) extends PrimeField K where
   wrap : K → K
-  unwrap : K → K  
+  unwrap : K → K
 
 end newfieldclass
 
 instance [PrimeField K] : Random K where
   random g :=
-    let (n, g) := randNat g 0 (PrimeField.char K) 
-    (PrimeField.fromNat n, g)                                          
-    
+    let (n, g) := randNat g 0 (PrimeField.char K)
+    (PrimeField.fromNat n, g)
+
 /--
 Given a list of exponents `[e₁ e₂, ..., eₙ]` calculates `[base ^ e₁, base ^ e₂, ... , base ^ eₙ]`
 minimizing the number of exponentiations
 -/
-private partial def batchedExp {K : Type _} [Ring K] (base : K) (exps : Array Nat) 
+private partial def batchedExp {K : Type _} [Ring K] (base : K) (exps : Array Nat)
     : Array K := Id.run do
   let mut maxExp : Nat := exps.maxD 0
   let size := exps.size
@@ -96,8 +96,8 @@ private partial def batchedExp {K : Type _} [Ring K] (base : K) (exps : Array Na
 
   return answer
 
-/-- 
-Given an array of field elements `#[x₁, x₂, ... , xₙ]` calculates `#[x₁⁻¹, x₂⁻¹, ..., xₙ⁻¹]` 
+/--
+Given an array of field elements `#[x₁, x₂, ... , xₙ]` calculates `#[x₁⁻¹, x₂⁻¹, ..., xₙ⁻¹]`
 as a batched calculating using 1 field inversion (and `3n` field multiplications)
 Note: Be careful to only apply to invertible elements.
 -/
@@ -109,7 +109,7 @@ private def batchedInv {K : Type _} [Field K] (arr : Array K) : Array K := Id.ru
     muls := muls.push acc
     acc := acc * num
 
-  let mut inv := acc⁻¹  
+  let mut inv := acc⁻¹
   let mut answer := #[]
   let mut idx := arr.size - 1
   let mut done := if idx == 0 then true else false
@@ -188,7 +188,7 @@ macro_rules
     let unwrap := mkIdent `unwrap
     let reduce := mkIdent `reduce
     let natRepr := mkIdent `natRepr
-    
+
     -- Arithmetic operations
     let add := mkIdent `add
     let mul := mkIdent `mul
@@ -250,7 +250,7 @@ macro_rules
 
       /-- `(p - 1) / 2` -/
       def $legNum : Nat := $p >>> 1
-      
+
       open AddChain in
       /-- Pre-computed array of `ChainStep`s to calculate the Legendre symbol -/
       def $legAC : Array ChainStep := $(mkIdent `buildSteps) $ $legNum |>.minChain
@@ -260,7 +260,7 @@ macro_rules
       def $frobAC : Array ChainStep := $(mkIdent `buildSteps) $ $p |>.minChain
 
       /-- Pre-computed `(s, d)` where `p = 1 + 2 ^ s * d` with `d` odd -/
-      def $twoAdicity : Nat × Nat := Nat.get2Adicity <| $p - 1 
+      def $twoAdicity : Nat × Nat := Nat.get2Adicity <| $p - 1
 
       /-- The Montgomery reduction algorithm -/
       def $reduce (x : Nat) : Nat :=
@@ -270,11 +270,11 @@ macro_rules
         | .negSucc n => $p - (n + 1) >>> $content
 
       /-- Bring a field element into Montgomery form -/
-      def $wrap (x : $name) : $name := 
+      def $wrap (x : $name) : $name :=
         if x.wrapped then x else ⟨x.data <<< $content |>.mod $p, true⟩
 
       /-- Bring a field element out of Montgomery form -/
-      def $unwrap (x: $name) : $name := 
+      def $unwrap (x: $name) : $name :=
         if x.wrapped then ⟨$reduce x.data, false⟩ else x
 
       /-- Unwrap and extract the `Nat` data of a field element -/
@@ -303,17 +303,17 @@ macro_rules
       partial def $mul (x y : $name) : $name := -- TODO: Eliminate partial
         match x.wrapped, y.wrapped with
         | true, true => ⟨$reduce <| x.data * y.data, true⟩
-        | true, false => 
+        | true, false =>
           let y := $wrap y
           $mul x y
-        | false, true => 
+        | false, true =>
           let x := $wrap x
           $mul x y
         | false, false => ⟨x.data * y.data % $p, false⟩
 
       instance : Mul $name where
         mul := $mul
-      
+
       /-- Field negation-/
       def $neg (x : $name) : $name :=
         ⟨$p - x.data, x.wrapped⟩
@@ -335,7 +335,7 @@ macro_rules
             let exp' := exp / 2
             have : exp' < exp := Nat.div2_lt h
             if exp % 2 = 0
-            then go (base * base) acc exp'   
+            then go (base * base) acc exp'
             else go (base * base) (acc * base) exp'
         go base 1 exp
 
@@ -343,7 +343,7 @@ macro_rules
       def $pow (x : $name) (exp : Nat) : $name :=
         if 3 < exp then
           let x := $wrap x
-          $powAux x exp |> ($unwrap ·) 
+          $powAux x exp |> ($unwrap ·)
         else
           $powAux x exp
 
@@ -357,7 +357,7 @@ macro_rules
         let mut (u, v, r, s, k) := ($p, x, 0, 1, 0)
 
         while v > 0 do
-          if u % 2 == 0 then 
+          if u % 2 == 0 then
             u := u >>> 1
             s := s <<< 1
           else if v % 2 == 0 then
@@ -369,11 +369,11 @@ macro_rules
             s := s <<< 1
           else if u ≤ v then
             v := (v - u) >>> 1
-            s := s + r 
+            s := s + r
             r := r <<< 1
           k := k + 1
-        
-        if $p ≤ r then 
+
+        if $p ≤ r then
           r := 2 * $p - r
         else
           r := $p - r
@@ -383,18 +383,18 @@ macro_rules
             r := r >>> 1
           else
             r := (r + $p) >>> 1
-        
+
         return r
-      
-      /-- 
+
+      /--
       Calculates the inverse of an element. If the element is wrapped, applies Montgomery inversion:
       <https://ieeexplore.ieee.org/document/403725>
       Otherwise calculates the inverse using the extended Euclidean Algorithm
       -/
       def $inv (x : $name) : $name :=
-        if x.wrapped then 
+        if x.wrapped then
           ⟨$invAux <| $reduce x.data, true⟩
-        else 
+        else
           let ans := Nat.gcdA x.data $p
           let ans := if ans < 0 then ans + $p |>.toNat else ans.toNat
           ⟨ans, false⟩
@@ -404,22 +404,22 @@ macro_rules
         square x := x * x
 
       open Square in
-      /-- 
-      Calculates the Legendre symbol of the element `x`, using a pre-computed AddChain for 
+      /--
+      Calculates the Legendre symbol of the element `x`, using a pre-computed AddChain for
       `p - 1 / 2`
       -/
       def $legendre (x : $name) : Nat :=
         $(mkIdent `chainExp) $legAC x.wrap |> $natRepr
-      
+
       open Square in
-      /-- 
+      /--
       Calculates the Legendre symbol of the element `x`, using a pre-computed AddChain for `p`
       -/
       def $frob (x : $name) : $name :=
         $(mkIdent `chainExp) $frobAC x.wrap
 
       /--
-      Given a list of exponents `[e₁ e₂, ..., eₙ]` calculates 
+      Given a list of exponents `[e₁ e₂, ..., eₙ]` calculates
       `[base ^ e₁, base ^ e₂, ... , base ^ eₙ]` efficiently
       -/
       partial def $batchedExp (base : $name) (exps : Array Nat) : Array $name := Id.run do
@@ -435,11 +435,11 @@ macro_rules
             if exps[idx]! % 2 == 1 then answer := answer.set! idx (answer[idx]! * pow)
             exps := exps.set! idx (exps[idx]! >>> 1)
           pow := pow * pow
-        
+
         return answer
-      
-      /-- 
-      Given an array of field elements `#[x₁, x₂, ... , xₙ]` calculates `#[x₁⁻¹, x₂⁻¹, ..., xₙ⁻¹]` 
+
+      /--
+      Given an array of field elements `#[x₁, x₂, ... , xₙ]` calculates `#[x₁⁻¹, x₂⁻¹, ..., xₙ⁻¹]`
       as a batched calculating using 1 field inversion (and `3n` field multiplications)
       Note: Be careful to only apply to invertible elements.
       -/
@@ -464,7 +464,7 @@ macro_rules
           idx := idx - 1
 
         return answer.reverse
-      
+
       /--
       Calculates the 2 square roots of `x`, or returns `none` if `x` is not a square.
       -/
@@ -494,14 +494,14 @@ macro_rules
           let b := c ^ (2^(m - iMax - 1))
           r := (r * b)
           c := (b * b)
-          t := (t * c) 
+          t := (t * c)
           m := iMax
         return some (r, $neg r)
 
-      -- Instances: 
+      -- Instances:
       instance : ToString $name where
         toString x := if x.wrapped then s!"{x.data}ₘ" else s!"{x.data}"
-      
+
       instance : Ring $name where
         zero := ⟨0, false⟩
         one := ⟨1, false⟩

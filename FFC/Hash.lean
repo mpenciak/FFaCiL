@@ -5,7 +5,7 @@ import FFC.PrimeField
 # Shallue-van de Woestijne method
 
 Shallue-van de Woestijne method is an algorithm allowing representing
-an elliptic curve point (of Weierstrass form) as an element of the 
+an elliptic curve point (of Weierstrass form) as an element of the
 underlying scalar field.
 
 See https://eprint.iacr.org/2022/759.pdf.
@@ -13,7 +13,7 @@ See https://eprint.iacr.org/2022/759.pdf.
 
 variable {F : Type _} [PrimeField F] (C : Curve F)
 
-open PrimeField (isSquare) in 
+open PrimeField (isSquare) in
 /--
 Find a Z for Shallue-van de Woestijne method.
 
@@ -25,11 +25,11 @@ private def findZ : F := Id.run do
   let mut ctr : F := 1
     while true do
       for Z_cand in [ctr, -ctr] do
-        if g Z_cand == 0 then 
+        if g Z_cand == 0 then
           continue
-        else if h Z_cand == 0 then 
+        else if h Z_cand == 0 then
           continue
-        else if not $ isSquare (h Z_cand) then 
+        else if not $ isSquare (h Z_cand) then
           continue
         else if isSquare (g Z_cand) || isSquare (g (-Z_cand / (2 : Nat))) then
           return Z_cand

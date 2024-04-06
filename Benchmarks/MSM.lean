@@ -6,7 +6,7 @@ open Benchmark
 
 instance : FixedSize (Array $ Nat × Pallas.Point) where
   random size := do
-    let mut answer := #[] 
+    let mut answer := #[]
     let g ← get
     let mut g := g.down
     let mut n := 0

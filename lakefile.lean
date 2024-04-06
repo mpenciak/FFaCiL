@@ -16,4 +16,3 @@ lean_exe Tests.Hash
 
 lean_exe Benchmarks.GLV
 lean_exe Benchmarks.MSM
-

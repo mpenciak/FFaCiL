@@ -4,7 +4,7 @@ import FFC.Util.Ring
 /-!
 # Zmod
 
-This module defines type `Zmod n` representing the integers modulo `n`. 
+This module defines type `Zmod n` representing the integers modulo `n`.
 
 ## Yatima Standard Library
 

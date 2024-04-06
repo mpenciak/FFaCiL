@@ -6,7 +6,7 @@ import Std.Data.HashMap.Basic
 
 This module implements Pippenger's algorithm to calculate an MSM on generic curves.
 
-The implementation is based off https://cr.yp.to/papers/pippenger.pdf and 
+The implementation is based off https://cr.yp.to/papers/pippenger.pdf and
 https://www.slideshare.net/GusGutoski/multiscalar-multiplication-state-of-the-art-and-new-ideas
 -/
 
@@ -17,7 +17,7 @@ def naiveMSM {F : Type _} [PrimeField F] {C : Curve F} (params : Array $ Nat × 
     : ProjectivePoint C :=
   params.foldl (init := .zero) fun acc (n, p) => acc + n * p
 
-open Std 
+open Std
 
 variable {F : Type _} [Field F] {C : Curve F}
 
@@ -35,15 +35,15 @@ def numChunks (ns : Array Nat) : Nat :=
   max / (8 * CHUNK_LENGTH) + 1
 
 /-
-Calculates the chunk at index `idx` of the natural number `n`, where each chunk is a length 
-`CHUNK_WIDTH` binary substring of the binary expansion of `n`. 
+Calculates the chunk at index `idx` of the natural number `n`, where each chunk is a length
+`CHUNK_WIDTH` binary substring of the binary expansion of `n`.
 -/
 def Nat.chunk (n idx : Nat) : Nat :=
   let n' := n >>> (CHUNK_WIDTH * idx)
   n' % CHUNK_CONTENT
 
 /--
-An `MSMInstance` stores the points `Gᵢ` and coefficients `nᵢ` in an MSM calculation `∑ nᵢGᵢ`. 
+An `MSMInstance` stores the points `Gᵢ` and coefficients `nᵢ` in an MSM calculation `∑ nᵢGᵢ`.
 -/
 abbrev MSMInstance {F} [Field F] (C : Curve F) := HashMap Nat (ProjectivePoint C)
 
@@ -56,7 +56,7 @@ def generateInstances {F} [Field F] {C : Curve F} (pairs : Array (Nat × Project
   let size := numChunks $ pairs.map fun (n, _) => n
   let mut answer := Array.mkEmpty size
   for idx in [:size] do
-    let mut inst : MSMInstance C := .empty 
+    let mut inst : MSMInstance C := .empty
     for (n, P) in pairs do
       if inst.contains $ n.chunk idx then
         inst := inst.insert (n.chunk idx) $ inst.find! (n.chunk idx) + P
@@ -87,6 +87,6 @@ This implementation is parallelized and evaluates each `MSMInstance` as a separa
 -/
 def pippengerMSM (pairs : Array (Nat × ProjectivePoint C)) : ProjectivePoint C :=
   let instances := generateInstances pairs
-  let answers := instances.mapIdx fun idx inst => 
+  let answers := instances.mapIdx fun idx inst =>
     Task.spawn fun () => inst.evaluate (CHUNK_WIDTH * idx)
   answers.foldl (init := .zero) fun acc P => acc + P.get

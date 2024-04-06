@@ -4,7 +4,7 @@ import FFC.Util.Int
 /-!
 # Bit
 
-This module defines and adds functionality to a type representing `Bit`s. 
+This module defines and adds functionality to a type representing `Bit`s.
 
 ## Yatima Standard Library
 

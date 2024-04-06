@@ -17,11 +17,11 @@ def SmallCurve : Curve SmallField where
 
 namespace SmallCurve
 
-def G : ProjectivePoint SmallCurve := .mkD 52 74 1 
+def G : ProjectivePoint SmallCurve := .mkD 52 74 1
 
-def P : ProjectivePoint SmallCurve := .mkD 98 24 1 
+def P : ProjectivePoint SmallCurve := .mkD 98 24 1
 
-open ProjectivePoint 
+open ProjectivePoint
 
 def pOnCurveTests : TestSeq :=
   test "projective: onCurve" (ProjectivePoint.onCurve SmallCurve G.X G.Y G.Z) $

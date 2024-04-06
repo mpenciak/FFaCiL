@@ -25,7 +25,7 @@ variable {R} [OfNat R (nat_lit 0)]
 
 /-
 NOTE : All these definitions only make sense when we know that the two arrays representing the
-vectors have the same dimension. Otherwise you'll get nonsense. 
+vectors have the same dimension. Otherwise you'll get nonsense.
 Look at `AbstractMatrix.lean` for a comment on the prefered solution where vectors carry their
 length, which is currently blocked by some formalization of Array lemmas that still needs to be done
 in the standard library.

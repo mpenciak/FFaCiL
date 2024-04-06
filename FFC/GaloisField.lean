@@ -23,7 +23,7 @@ class GaloisField (K : Type _) extends Field K where
 namespace GaloisField
 
 /-- An `O(log n)` implementation of `galPow` -/
-def fastPow [Mul K] [OfNat K (nat_lit 1)] (x : K) (n : Nat) : K := 
+def fastPow [Mul K] [OfNat K (nat_lit 1)] (x : K) (n : Nat) : K :=
   let binExp := n.toBits
   let squares := getSquares [x] (binExp.length)
   binExp.zip squares |>.foldl (init := 1) (fun acc (x, s) => if x == .one then acc * s else acc)
@@ -52,7 +52,7 @@ open Polynomial
 
 /--
 Pre-computed evaluations of the Frobenius for a Galois field for small degree (2 and 3) extensions.
-`frobenius P Q` evaluates the Frobenius of `Q` in the extension of `K` defined by `P`. 
+`frobenius P Q` evaluates the Frobenius of `Q` in the extension of `K` defined by `P`.
 -/
 def frobenius [GaloisField K] [BEq K] :
   Polynomial K → Polynomial K → Option (Polynomial K)
@@ -81,7 +81,7 @@ def frobenius [GaloisField K] [BEq K] :
     else .none
   | _,_ => .none
 
-/-- 
+/--
 The inductive representing field elements in an Extension field of `K` defined by a polynomial `P`
 -/
 def Extension (K : Type _) [GaloisField K] (_ : Polynomial K) := Polynomial K
@@ -89,10 +89,10 @@ def Extension (K : Type _) [GaloisField K] (_ : Polynomial K) := Polynomial K
 instance {P : Polynomial K} [GaloisField K] : Coe (Polynomial K) (Extension K P) where
   coe := id
 
-def Extension.defPoly {K : Type _} [GaloisField K] {P : Polynomial K} (_ : Extension K P) 
+def Extension.defPoly {K : Type _} [GaloisField K] {P : Polynomial K} (_ : Extension K P)
   : Polynomial K := P
 
-/-- 
+/--
 Calculates powers of polynomials
 -/
 def polyPow {K : Type _} [GaloisField K] : Polynomial K → Nat → Polynomial K
@@ -139,7 +139,7 @@ instance extensionFieldTower [GaloisField K] [BEq K] : TowerOfFields K (Extensio
 
 instance [GaloisField L] [GaloisField K] [BEq K] [BEq L]
          [t₁ : TowerOfFields K L] : TowerOfFields K (Extension L Q) where
-  embed := 
+  embed :=
     let t₂ := extensionFieldTower
     t₂.embed ∘ t₁.embed
 
@@ -157,7 +157,7 @@ Given `x : K`, `legendreSymbol` checks if `x` is a square by computing the Legen
 def legendreSymbol [GaloisField K] [BEq K] (x : K) : Residue :=
   let pow := (char K) ^ (deg K) >>> 1
   let exp := fastPow x pow
-  if exp == 1 then .quadraticResidue else 
+  if exp == 1 then .quadraticResidue else
   if exp == -1 then .quadraticNonResidue else
     .zero
 

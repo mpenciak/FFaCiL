@@ -7,7 +7,7 @@ open LSpec
 
 section TestingInstances
 
-/- 
+/-
 In this section we define the necessary `SlimCheck` instances to define tests for field elements
 
 Note: It may be worth putting this into YSL, so it can be used elsewhere
@@ -16,7 +16,7 @@ Note: It may be worth putting this into YSL, so it can be used elsewhere
 open SlimCheck
 
 instance : Shrinkable (Zmod p) where
-  shrink a := 
+  shrink a :=
     let aNat := PrimeField.natRepr a
     let shrunkA := Shrinkable.shrink aNat
     shrunkA.map PrimeField.fromNat
@@ -30,7 +30,7 @@ Note: Note actually used in the below tests, but could be plugged in later
 -/
 def curveGen : Gen $ Curve (Zmod p) := do
   let mut actualC := ⟨0, 1⟩
-  while true do 
+  while true do
     let candidateC : Curve (Zmod p) :=  {
       a := ← Gen.chooseAny Nat
       b := ← Gen.chooseAny Nat
